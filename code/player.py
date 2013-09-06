@@ -1,6 +1,26 @@
 from datetime import date
 from utils import *
 from contract import *
+from stint import *
+
+class PlayerSeason:
+   #__m_year
+   #__m_contract
+   #__m_stints
+   #__m_prorated_salary
+   #__m_projected_salary
+
+   def __init__(self, year, contract):
+      self.__m_year = year
+      self.__m_contract = contract
+      self.__m_prorated_salary = 0
+      self.__m_stints = []
+      if (contract.Guranteed()):
+ 
+      self.__m_projected_salary = 
+
+   def AddStint(self, stint):
+      self.__m_stints.append(stint) 
 
 class Player:
    #__m_id
@@ -60,7 +80,10 @@ class Player:
       self.__m_contracts.append(contract)
       if (contract.CoversYear(date.today().year)):
          self.__m_current_contract = contract     
- 
+
+   def AddStint(self, stint):
+       
+    
    def __str__(self):
       return '%s, %s %s, %s, %s' % (self.__m_id, self.__m_first_name, 
                                     self.__m_last_name, str(self.__m_dob), 

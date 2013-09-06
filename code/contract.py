@@ -20,6 +20,9 @@ class ContractYear:
    def GetValue(self)
       return self.__m_value
 
+   def Guaranteed(self)
+      return self.__m_guaranteed
+
 class Contract:
    #__m_length
    #__m_guaranteed
