@@ -23,6 +23,7 @@ class Positions:
    OF = 12
    Map = ["SP", "C", "1B", "2B", "3B", "SS", "LF", "CF", "RF", "RP", "UT", "OF"]
 
+
 def ServiceTimeToDays(years):
    years_floor = math.floor(years);
    days = years_floor * DAYS_PER_SEASON 

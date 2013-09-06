@@ -1,5 +1,6 @@
 from datetime import date
 from utils import *
+from contract import *
 
 class Player:
    #__m_id
