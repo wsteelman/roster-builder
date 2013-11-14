@@ -2,25 +2,45 @@ from datetime import date
 from utils import *
 from contract import *
 from stint import *
+from seasons import *
 
 class PlayerSeason:
-   #__m_year
-   #__m_contract
-   #__m_stints
+   #__m_season
    #__m_prorated_salary
    #__m_projected_salary
+   #__m_stints
+   #__m_last_stint
+   #__m_contract_years
 
-   def __init__(self, year, contract):
-      self.__m_year = year
-      self.__m_contract = contract
+   def __init__(self, year, contracts):
+      self.__m_season = seasons[year]
       self.__m_prorated_salary = 0
+      self.__m_projected_salary = 0
       self.__m_stints = []
-      if (contract.Guranteed()):
- 
-      self.__m_projected_salary = 
+      self.__m_last_stint = None; 
+      for c in contracts:
+         cy = c.GetYear(year)
+         if (cy is not None): 
+            self.__m_contract_years.append(cy)
 
    def AddStint(self, stint):
       self.__m_stints.append(stint) 
+      if (self.__m_last_stint is None):
+         self.__m_last_stint = stint
+      elif (stint.Start() > self.__m_last_stint.End()):
+         self.__m_last_stint = stint
+         
+   def ProjectedValue(self):
+      if self.__m_contract_year is None:
+         self.__m_projected_salary = self.__m_prorated_salary
+      else:
+         tmp = self.__m_prorated_salary
+         tmp = tmp + (self.__m_contract_year.GetValue(self.__m_last_stint.Level()) * 
+                      self.__m_season.PercentLeft())
+         self.__m_projected_salary = tmp
+
+   def ProjectedSalary(self):
+      return self.__m_projected_salary
 
 class Player:
    #__m_id
@@ -37,6 +57,7 @@ class Player:
    #__m_options
    #__m_contracts
    #__m_current_contract
+   #__m_seasons
 
    def __init__(self, id, first, last, dob, bats, throws):
       self.__m_id = id
@@ -54,6 +75,7 @@ class Player:
       self.__m_position = []
       self.__m_options = []
       self.__m_contracts = []
+      self.__m_seasons = {}
 
    def SetProfessionalSigningDate(self, d):
       self.__m_first_signing = d
@@ -82,8 +104,17 @@ class Player:
          self.__m_current_contract = contract     
 
    def AddStint(self, stint):
-       
-    
+      year = stint.Start().year
+      if (year not in self.__m_seasons):
+         print "Adding player season " + str(year)
+         self.__m_seasons[year] = PlayerSeason(year, self.__m_current_contract)
+      season = self.__m_seasons[year]
+      season.AddStint(stint)    
+   
+   def GetPlayerSeason(self, year):
+      if (year in self.__m_seasons):
+         return self.__m_seasons[year]
+ 
    def __str__(self):
       return '%s, %s %s, %s, %s' % (self.__m_id, self.__m_first_name, 
                                     self.__m_last_name, str(self.__m_dob), 

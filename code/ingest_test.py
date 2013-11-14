@@ -18,6 +18,17 @@ class db_ingest_dummy(db_ingest_inf):
       p.AddPosition(Positions.LF)
       p.AddOptionYear(2002)
       p.AddOptionYear(2003)
+
+      c = Contract(7, 2010, True, "blah")
+      c.AddYear(2010, 17000000, False, 0, 0) 
+      c.AddYear(2011, 17000000, False, 0, 0) 
+      c.AddYear(2012, 17000000, False, 0, 0) 
+      c.AddYear(2013, 17000000, False, 0, 0) 
+      c.AddYear(2014, 17000000, False, 0, 0) 
+      c.AddYear(2015, 17000000, False, 0, 0) 
+      c.AddYear(2016, 17000000, False, 0, 0) 
+      p.AddContract(c)
+      p.AddStint(Stint("STL", Levels.MLB, Levels.MLB, "A", 0, "END", date(2013, 3, 31), date(2013, 9, 29)))
       self.__m_players.append(p)
       self.__m_player_cnt += 1
      

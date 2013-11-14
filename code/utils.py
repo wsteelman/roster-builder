@@ -23,7 +23,20 @@ class Positions:
    OF = 12
    Map = ["SP", "C", "1B", "2B", "3B", "SS", "LF", "CF", "RF", "RP", "UT", "OF"]
 
-
+class Levels:
+   MLB = 0
+   AAA = 1
+   AA  = 2  
+   AP  = 3
+   A   = 4
+   AM  = 5
+   RkP = 6
+   Rk  = 7
+   FRk = 8
+   COUNT = 9
+   Map = ["MLB", "AAA", "AA", "A+", "A", "A-", "Rk+", "Rk", "FRk"]
+ 
+ 
 def ServiceTimeToDays(years):
    years_floor = math.floor(years);
    days = years_floor * DAYS_PER_SEASON 

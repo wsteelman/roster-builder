@@ -1,3 +1,4 @@
+from utils import * 
 
 class ContractYear:
    #__m_year
@@ -7,21 +8,39 @@ class ContractYear:
    #__m_bonus
    #__m_exercised
    
-   def __init__(self, year, option, value, buyout, bonus, exercised):
+   def __init__(self, year, value, option_year, buyout, bonus, exercised, guaranteed):
       self.__m_year = year;
-      self.__m_option = option
+      self.__m_option = option_year
       self.__m_buyout = buyout
       self.__m_bonus = bonus
       self.__m_exercised = exercised
-      self.__m_value = value
-      if option and not exercised:
-         self.__m_value = buyout
+      self.__m_value = []
 
-   def GetValue(self)
+      # if option year, compute the value 
+      if (option_year and not exercised):
+         value = buyout
+
+      value = value + bonus
+
+      # set value at MLB level 
+      self.__m_value.append(value)
+      
+      # set value at other levels
+      if (guaranteed):
+         for i in range(1, Levels.COUNT):
+            self.__m_value.append(value)
+      else:
+         for i in range(1, Levels.COUNT):
+            self.__m_value.append(0)
+
+   def SetValue(self, level, value):
+      self.__m_value[level] = value + self.__m_bonus
+
+   def GetValue(self, level):
+      return self.__m_value[level]
+
+   def GetValues(self):
       return self.__m_value
-
-   def Guaranteed(self)
-      return self.__m_guaranteed
 
 class Contract:
    #__m_length
@@ -36,13 +55,12 @@ class Contract:
       self.__m_guaranteed = guaranteed
       self.__m_start_year = start_year
       self.__m_description = desc
-      self.__m_total_value = 0
       self.__m_years = {}
 
-   def AddYear(self, year, option, value, buyout, bonus):
-      cy = ContractYear(year, option, value, buyout, bonus)
-      self.__m_total_value += cy.GetValue()
-      self.__m_years[year] = cy
+   def AddYear(self, year, value, option, buyout, bonus):
+      self.__m_years[year] = ContractYear(year, value, option, buyout, bonus, 
+                                          False, self.__m_guaranteed)
+ 
 
    def CoversYear(self, year):
       if (year >= self.__m_start_year and 
@@ -50,3 +68,12 @@ class Contract:
          return True
       else:
          return False 
+
+   def GetYear(self, year):
+      if (year is in self.__m_years): 
+         return self.__m_years[year];
+
+   def Guaranteed(self):
+      return self.__m_guaranteed
+
+
