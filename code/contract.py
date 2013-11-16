@@ -1,4 +1,5 @@
 from utils import * 
+from stint import *
 
 class ContractYear:
    #__m_year
@@ -42,6 +43,21 @@ class ContractYear:
    def GetValues(self):
       return self.__m_value
 
+class ContractAssignment:
+   def __init__(self, org, start, end):
+      self__m_org = org;
+      self__m_start = start;
+      self__m_end = end;
+
+   def Start(self):
+      return self.__m_start
+
+   def End(self):
+      return self.__m_end
+
+   def SetEnd(self, date):
+      self.__m_end = date
+
 class Contract:
    #__m_length
    #__m_guaranteed
@@ -49,25 +65,28 @@ class Contract:
    #__m_total_value
    #__m_start_year
    #__m_description
+   #__m_assignees
 
-   def __init__(self, length, start_year, guaranteed, desc):
+   def __init__(self, org, length, start_year, guaranteed, desc):
       self.__m_length = length
       self.__m_guaranteed = guaranteed
       self.__m_start_year = start_year
       self.__m_description = desc
       self.__m_years = {}
+      self.__m_assignees = []
+      self.__m_assignees.append(ContractAssignemnt(org, date(start_year, 1, 1), date(start_year + length, 1, 1)))
 
    def AddYear(self, year, value, option, buyout, bonus):
       self.__m_years[year] = ContractYear(year, value, option, buyout, bonus, 
                                           False, self.__m_guaranteed)
- 
+
+   def GetSalary(self, org, start, end):
 
    def CoversYear(self, year):
-      if (year >= self.__m_start_year and 
-          year < (self.__m_start_year + self.__m_length)):
+      if (year is in self.__m_years):
          return True
       else:
-         return False 
+         return False
 
    def GetYear(self, year):
       if (year is in self.__m_years): 
@@ -75,5 +94,10 @@ class Contract:
 
    def Guaranteed(self):
       return self.__m_guaranteed
+
+   def AddAssignee(self, org, start_date):
+      self.__m_assignees.append(ContractAssignment(org, start_date, 
+            self.__assignees[-1].End()))
+      self.__m_assignees[-1].SetEnd(start_date-1) 
 
 

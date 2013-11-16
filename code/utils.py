@@ -47,3 +47,4 @@ def ServiceTimeToYears(days):
    years = math.floor(days / DAYS_PER_SEASON);
    days_left = days % DAYS_PER_SEASON;
    return years + (days_left / 1000);
+

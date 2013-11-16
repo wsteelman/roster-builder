@@ -29,7 +29,11 @@ class PlayerSeason:
          self.__m_last_stint = stint
       elif (stint.Start() > self.__m_last_stint.End()):
          self.__m_last_stint = stint
-         
+        
+   def ProratedSalary(self, org):
+      for s in self.__m_stints:
+          
+ 
    def ProjectedValue(self):
       if self.__m_contract_year is None:
          self.__m_projected_salary = self.__m_prorated_salary
